@@ -1,0 +1,28 @@
+newmtl BodyMT_c86d1f2b-f410-4210-a16d-1ae25429f40f
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd BodyMT_baseColor_4.jpg
+newmtl HandMT_4c6e6bd9-974c-49a8-aba3-b4ef32acf2ed
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd HandMT_baseColor.jpg
+newmtl CapMT_1e4baaa0-408c-4645-80fb-912892c41d79
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd HairMT_baseColor_4.jpg
+newmtl HairMT_bff642ea-3fab-4d28-8bed-0a52d04a53ce
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd HairMT_baseColor_4.jpg
+newmtl HairMT_0_fde161be-833b-4bf0-88f3-c21fa49c7964
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd HairMT_0_baseColor.jpg
+newmtl FaceMT_7d7aa3d7-5439-4222-aee7-59441ae54ac2
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd FaceMT_baseColor_1.jpg
+newmtl EyeMT_b20de4d9-2ec3-468f-a5ca-3abbdbaaa804
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd EyeMT_baseColor.jpg
