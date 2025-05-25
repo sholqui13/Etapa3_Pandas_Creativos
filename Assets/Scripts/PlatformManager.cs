@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +6,20 @@ public class PlatformManager : MonoBehaviour
 {
     public float fallDistance = 3f;
     public float fallDuration = 0.5f;
+    public float delayBeforeFall = 8f;
     public float delayBeforeReset = 2f;
 
-    public SemaforoColor semaforo; // Referencia al script del sem�foro
+    public SemaforoColor semaforo;
 
     private List<Transform> tiles = new List<Transform>();
     private Dictionary<Transform, Vector3> originalPositions = new Dictionary<Transform, Vector3>();
 
     private string ultimoColorProcesado = "";
+
+    private int cambioColorCount = 0;
+    public int maxCambiosDeColor = 5;
+
+    private bool juegoActivo = true;
 
     void Start()
     {
@@ -23,25 +29,36 @@ public class PlatformManager : MonoBehaviour
             originalPositions[child] = child.position;
         }
 
-        // Procesar el color inicial del sem�foro
-        if (semaforo != null)
-        {
-            ultimoColorProcesado = semaforo.ObtenerNombreColor();
-            StartCoroutine(ActivatePlatform(ultimoColorProcesado));
-        }
+        StartCoroutine(IniciarSecuencia());
     }
 
-    void Update()
+    private IEnumerator IniciarSecuencia()
     {
-        if (semaforo == null) return;
+        // Tiempo inicial para que los jugadores se posicionen
+        Debug.Log("Preparados... 10 segundos para comenzar.");
+        yield return new WaitForSeconds(10f);
 
-        string colorActual = semaforo.ObtenerNombreColor();
-
-        // Detectar cambio de color
-        if (colorActual != ultimoColorProcesado)
+        while (juegoActivo)
         {
-            ultimoColorProcesado = colorActual;
-            StartCoroutine(ActivatePlatform(colorActual));
+            // Cambiar color
+            semaforo.CambiarColorAleatorio();
+            string colorSeguro = semaforo.ObtenerNombreColor();
+            Debug.Log("Color seguro: " + colorSeguro);
+
+            // Esperar antes de que caigan las plataformas incorrectas
+            yield return new WaitForSeconds(delayBeforeFall);
+
+            // Activar caída de plataformas incorrectas
+            yield return StartCoroutine(ActivatePlatform(colorSeguro));
+
+            cambioColorCount++;
+
+            if (cambioColorCount >= maxCambiosDeColor)
+            {
+                Debug.Log("Juego finalizado por límite de cambios de color.");
+                juegoActivo = false;
+                // Aquí puedes activar pantalla de victoria o terminar el juego.
+            }
         }
     }
 
@@ -51,7 +68,7 @@ public class PlatformManager : MonoBehaviour
 
         foreach (Transform tile in tiles)
         {
-            string tileColor = tile.tag; // Usa la Tag para identificar el color
+            string tileColor = tile.tag;
 
             if (!tileColor.Equals(safeColor, System.StringComparison.OrdinalIgnoreCase))
             {
@@ -59,7 +76,7 @@ public class PlatformManager : MonoBehaviour
             }
         }
 
-        // Bajar los cubos incorrectos
+        // Bajar plataformas incorrectas
         foreach (Transform tile in toDrop)
         {
             StartCoroutine(MoveTile(tile, originalPositions[tile], originalPositions[tile] - new Vector3(0, fallDistance, 0), fallDuration));
@@ -67,11 +84,13 @@ public class PlatformManager : MonoBehaviour
 
         yield return new WaitForSeconds(delayBeforeReset);
 
-        // Subir de nuevo los cubos
+        // Subir plataformas nuevamente
         foreach (Transform tile in toDrop)
         {
             StartCoroutine(MoveTile(tile, tile.position, originalPositions[tile], fallDuration));
         }
+
+        // Al finalizar el reseteo, el semáforo cambiará en el siguiente ciclo del Coroutine IniciarSecuencia()
     }
 
     private IEnumerator MoveTile(Transform tile, Vector3 startPos, Vector3 endPos, float duration)

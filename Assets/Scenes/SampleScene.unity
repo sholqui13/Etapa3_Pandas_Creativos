@@ -445,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456298260173820300, guid: fcb102ec981de8b408b4424034a8b7be, type: 3}
       propertyPath: m_Name
-      value: Capsule original
+      value: Jugador
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2397892994584726240, guid: fcb102ec981de8b408b4424034a8b7be, type: 3}
@@ -1059,8 +1059,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallDistance: 3
   fallDuration: 0.5
+  delayBeforeFall: 8
   delayBeforeReset: 2
   semaforo: {fileID: 188907246}
+  maxCambiosDeColor: 5
 --- !u!4 &596200447
 Transform:
   m_ObjectHideFlags: 0
@@ -1926,6 +1928,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -22.695, y: 0, z: 0}
+--- !u!1 &1432325208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1432325210}
+  - component: {fileID: 1432325209}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1432325209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432325208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6d77ec0f28f684896f0d06c976d0ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jugador: {fileID: 1717159196}
+  alturaCaida: -5
+--- !u!4 &1432325210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432325208}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.63163, y: 0.4114413, z: 30.17495}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1661415115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2055,6 +2103,11 @@ MonoBehaviour:
   velocidadCarrera: 5
   fuerzaSalto: 3
   gravedadExtra: 2
+--- !u!4 &1717159196 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 633746997682434302, guid: fcb102ec981de8b408b4424034a8b7be, type: 3}
+  m_PrefabInstance: {fileID: 191273041}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1827244338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2069,7 +2122,7 @@ GameObject:
   - component: {fileID: 1827244339}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Fuscia
+  m_TagString: Fucsia
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2355,3 +2408,4 @@ SceneRoots:
   - {fileID: 188907247}
   - {fileID: 1373195309}
   - {fileID: 596200447}
+  - {fileID: 1432325210}

@@ -1,11 +1,11 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class SemaforoColor : MonoBehaviour
 {
     [Header("Materiales de colores (9)")]
     public Material[] colores = new Material[9];
 
-    [Header("Renderer del panel del sem·foro")]
+    [Header("Renderer del panel del sem√°foro")]
     public Renderer panelRenderer;
 
     [Header("Sonido de cambio de color")]
@@ -14,41 +14,26 @@ public class SemaforoColor : MonoBehaviour
     private AudioSource audioSource;
     [HideInInspector] public int colorActualIndex;
 
-    private float tiempoCambio = 8.0f;
-    private float temporizador = 0f;
-
     private int ultimoColorIndex = -1;
 
     void Start()
     {
-        // Obtener o agregar componente AudioSource
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        // Asegurarse que no se reproduzca autom·ticamente
         audioSource.playOnAwake = false;
-
-        CambiarColorAleatorio();
     }
 
-    void Update()
-    {
-        temporizador += Time.deltaTime;
-        if (temporizador >= tiempoCambio)
-        {
-            CambiarColorAleatorio();
-            temporizador = 0;
-        }
-    }
-
+    /// <summary>
+    /// Cambia el color de manera controlada desde PlatformManager
+    /// </summary>
     public void CambiarColorAleatorio()
     {
         if (colores.Length == 0 || panelRenderer == null) return;
 
-        // Elegir color aleatorio diferente al anterior
         int nuevoColorIndex;
         do
         {
@@ -58,16 +43,14 @@ public class SemaforoColor : MonoBehaviour
         colorActualIndex = nuevoColorIndex;
         ultimoColorIndex = colorActualIndex;
 
-        // Asignar nuevo material al panel
         panelRenderer.material = colores[colorActualIndex];
 
-        // Reproducir sonido
         if (sonidoCambio != null)
         {
             audioSource.PlayOneShot(sonidoCambio);
         }
 
-        Debug.Log("Color actual: " + colores[colorActualIndex].name);
+        Debug.Log("Nuevo color: " + colores[colorActualIndex].name);
     }
 
     public string ObtenerNombreColor()
