@@ -1,43 +1,62 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+ 
 public class GameManager : MonoBehaviour
 {
     public Transform jugador;
     public float alturaCaida = -5f;
-
+ 
+    public GameObject pantallaVictoria;
+    public GameObject pantallaDerrota;
+    public GameObject pantallaFinal; // üéØ Pantalla final
+ 
     private bool juegoTerminado = false;
-
+ 
+    public float tiempoPantallaFinal = 3f; // ‚è± Tiempo antes de mostrar la pantalla final
+ 
     void Update()
     {
         if (juegoTerminado) return;
-
+ 
+        // Detectar si el jugador cae al agua
         if (jugador.position.y < alturaCaida)
         {
-            Debug.Log("El jugador cayÛ al agua. Fin del juego.");
+            Debug.Log("El jugador cay√≥ al agua.");
             FinDelJuego(false);
         }
     }
-
+ 
     public void FinDelJuego(bool victoriaPorRondas)
     {
         juegoTerminado = true;
-
+ 
         if (victoriaPorRondas)
         {
-            Debug.Log("°Victoria! Sobreviviste a los 5 cambios.");
+            Debug.Log("¬°Victoria!");
+            pantallaVictoria.SetActive(true); // ‚úÖ Muestra victoria
         }
         else
         {
-            Debug.Log("°Derrota! Has caÌdo al agua.");
+            Debug.Log("¬°Derrota!");
+            pantallaDerrota.SetActive(true); // ‚ùå Muestra derrota
         }
-
-        // Reiniciar escena despuÈs de unos segundos
-        Invoke("ReiniciarJuego", 3f);
+ 
+        // ‚è≥ Despu√©s de unos segundos, mostrar la pantalla final
+        Invoke("MostrarPantallaFinal", tiempoPantallaFinal);
     }
-
-    void ReiniciarJuego()
+ 
+    void MostrarPantallaFinal()
     {
+        pantallaVictoria.SetActive(false);
+        pantallaDerrota.SetActive(false);
+ 
+        pantallaFinal.SetActive(true);
+        Time.timeScale = 0f; // Pausa el juego (opcional)
+    }
+ 
+    public void ReiniciarJuego()
+    {
+        Time.timeScale = 1f; // Quita la pausa
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
