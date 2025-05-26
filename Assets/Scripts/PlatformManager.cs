@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlatformManager : MonoBehaviour
 {
@@ -63,7 +64,10 @@ public class PlatformManager : MonoBehaviour
     }
 
     public IEnumerator ActivatePlatform(string safeColor)
+
     {
+        victoriaScript.MostrarVictoria(puntosTotales);
+
         List<Transform> toDrop = new List<Transform>();
 
         foreach (Transform tile in tiles)
@@ -92,6 +96,9 @@ public class PlatformManager : MonoBehaviour
 
         // Al finalizar el reseteo, el semáforo cambiará en el siguiente ciclo del Coroutine IniciarSecuencia()
     }
+
+    public Victoria victoriaScript; // Referencia al script de victoria
+    public int puntosTotales = 0;   // (Opcional) Si vas a mostrar puntos
 
     private IEnumerator MoveTile(Transform tile, Vector3 startPos, Vector3 endPos, float duration)
     {
