@@ -10,7 +10,12 @@ public class MovimientoPersonaje : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 movimiento;
-  
+
+    //  NUEVO: Referencia al script GameOver
+    public GameOver gameOverManager;
+
+    //  NUEVO: Altura límite para activar derrota
+    public float alturaCaida = -5f;
 
     void Start()
     {
@@ -21,6 +26,16 @@ public class MovimientoPersonaje : MonoBehaviour
     {
         Mover();
         Saltar();
+
+        //  NUEVO: Detectar caída fuera del escenario
+        if (transform.position.y < alturaCaida)
+        {
+            gameOverManager.MostrarGameOver();
+
+            Debug.Log("¡Game Over activado!");
+
+            this.enabled = false; // Detener controles del personaje
+        }
     }
 
     void Mover()
@@ -30,12 +45,10 @@ public class MovimientoPersonaje : MonoBehaviour
 
         Vector3 direccion = transform.right * horizontal + transform.forward * vertical;
 
-        // Alternar entre caminar y correr
         float velocidadFinal = Input.GetKey(KeyCode.LeftShift) ? velocidadCarrera : velocidad;
         movimiento.x = direccion.x * velocidadFinal;
         movimiento.z = direccion.z * velocidadFinal;
 
-        // Aplicar gravedad manualmente
         if (!controller.isGrounded)
             movimiento.y += Physics.gravity.y * gravedadExtra * Time.deltaTime;
 
@@ -44,7 +57,7 @@ public class MovimientoPersonaje : MonoBehaviour
 
     void Saltar()
     {
-        enSuelo = controller.isGrounded; // Asignamos el valor correcto
+        enSuelo = controller.isGrounded;
 
         if (enSuelo && Input.GetKeyDown(KeyCode.Space))
         {
@@ -52,3 +65,5 @@ public class MovimientoPersonaje : MonoBehaviour
         }
     }
 }
+
+
