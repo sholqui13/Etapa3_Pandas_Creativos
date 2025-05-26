@@ -11,11 +11,11 @@ public class PlatformManager : MonoBehaviour
     public float delayBeforeReset = 2f;
 
     public SemaforoColor semaforo;
+    public Victoria victoriaScript; // Referencia al script de victoria
+    public int puntosTotales = 0;   // (Opcional) para mostrar en pantalla de victoria
 
     private List<Transform> tiles = new List<Transform>();
     private Dictionary<Transform, Vector3> originalPositions = new Dictionary<Transform, Vector3>();
-
-    private string ultimoColorProcesado = "";
 
     private int cambioColorCount = 0;
     public int maxCambiosDeColor = 5;
@@ -35,21 +35,18 @@ public class PlatformManager : MonoBehaviour
 
     private IEnumerator IniciarSecuencia()
     {
-        // Tiempo inicial para que los jugadores se posicionen
         Debug.Log("Preparados... 6 segundos para comenzar.");
         yield return new WaitForSeconds(6f);
 
         while (juegoActivo)
         {
-            // Cambiar color
             semaforo.CambiarColorAleatorio();
             string colorSeguro = semaforo.ObtenerNombreColor();
             Debug.Log("Color seguro: " + colorSeguro);
 
-            // Esperar antes de que caigan las plataformas incorrectas
             yield return new WaitForSeconds(delayBeforeFall);
 
-            // Activar caída de plataformas incorrectas
+            // Caída y subida de plataformas
             yield return StartCoroutine(ActivatePlatform(colorSeguro));
 
             cambioColorCount++;
@@ -58,16 +55,18 @@ public class PlatformManager : MonoBehaviour
             {
                 Debug.Log("Juego finalizado por límite de cambios de color.");
                 juegoActivo = false;
-                // Aquí puedes activar pantalla de victoria o terminar el juego.
+
+                // Esperamos un momento para que se vea el último movimiento
+                yield return new WaitForSeconds(1f);
+
+                // Mostramos pantalla de victoria
+                victoriaScript.MostrarVictoria(puntosTotales);
             }
         }
     }
 
-    public IEnumerator ActivatePlatform(string safeColor)
-
+    private IEnumerator ActivatePlatform(string safeColor)
     {
-        victoriaScript.MostrarVictoria(puntosTotales);
-
         List<Transform> toDrop = new List<Transform>();
 
         foreach (Transform tile in tiles)
@@ -88,17 +87,12 @@ public class PlatformManager : MonoBehaviour
 
         yield return new WaitForSeconds(delayBeforeReset);
 
-        // Subir plataformas nuevamente
+        // Subir plataformas
         foreach (Transform tile in toDrop)
         {
             StartCoroutine(MoveTile(tile, tile.position, originalPositions[tile], fallDuration));
         }
-
-        // Al finalizar el reseteo, el semáforo cambiará en el siguiente ciclo del Coroutine IniciarSecuencia()
     }
-
-    public Victoria victoriaScript; // Referencia al script de victoria
-    public int puntosTotales = 0;   // (Opcional) Si vas a mostrar puntos
 
     private IEnumerator MoveTile(Transform tile, Vector3 startPos, Vector3 endPos, float duration)
     {
@@ -114,3 +108,4 @@ public class PlatformManager : MonoBehaviour
         tile.position = endPos;
     }
 }
+
