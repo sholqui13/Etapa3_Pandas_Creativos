@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlatformManager : MonoBehaviour
 {
-    public float fallDistance = 3f;
-    public float fallDuration = 0.5f;
-    public float delayBeforeFall = 8f;
+    public float fallDistance = 0.5f;
+    public float fallDuration = 1f;
+    public float delayBeforeFall = 5f;
     public float delayBeforeReset = 2f;
 
     public SemaforoColor semaforo;
@@ -35,8 +35,8 @@ public class PlatformManager : MonoBehaviour
     private IEnumerator IniciarSecuencia()
     {
         // Tiempo inicial para que los jugadores se posicionen
-        Debug.Log("Preparados... 10 segundos para comenzar.");
-        yield return new WaitForSeconds(10f);
+        Debug.Log("Preparados... 6 segundos para comenzar.");
+        yield return new WaitForSeconds(6f);
 
         while (juegoActivo)
         {

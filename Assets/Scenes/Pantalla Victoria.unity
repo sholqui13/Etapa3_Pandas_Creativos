@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 534092867}
   - component: {fileID: 534092866}
   m_Layer: 5
-  m_Name: Pantalla victoria
+  m_Name: PantallaVictoria
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 1668673605}
   - component: {fileID: 1668673604}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: CanvasVictoria
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
